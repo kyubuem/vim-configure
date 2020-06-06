@@ -10,6 +10,11 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/fzf' , { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'mattn/emmet-vim'
+Plug 'elzr/vim-json'
+Plug 'mxw/vim-jsx'
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
 
 call plug#end()
 
@@ -34,7 +39,6 @@ set ruler
 set fileencodings=utf8,euc-kr
 set noshowcmd
 set autowrite
-set updatetime=100
 
 "Theme
 set termguicolors
@@ -52,11 +56,11 @@ set nobackup
 set nowritebackup
 
 " Give more space for displaying messages.
-set cmdheight=2
+set cmdheight=1
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
-set updatetime=300
+set updatetime=100
 
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
@@ -191,6 +195,7 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 "disable vim-go :GoDev short cut (gd)
 "this is handled by LanguageClient [LC]
 let g:go_def_mapping_enabled = 0
+let g:go_code_completion_enabled = 0
 
 "vim-airline
 let g:airline_theme='molokai'
@@ -205,8 +210,10 @@ let g:go_test_timeout = '10s'
 let g:go_fmt_command = "goimports"
 let g:go_auto_sameids = 1
 let g:go_auto_type_info = 1
-let g:go_def_mode = 'godef'
+let g:go_def_mode = 'gopls'
 let g:go_decls_includes = "func,type"
+let g:go_auto_info = 1
+let g:go_info_mode= 'gopls'
 let g:go_metalinter_command = 'gopls'
 let g:go_gopls_staticcheck = 1
 let g:go_highlight_types = 1
@@ -224,3 +231,45 @@ au BufRead,BufNewFile *.gohtml set filetype=gohtmltmpl
 "vim-dart
 let dart_html_in_string=v:true
 let g:dart_style_guide = 2
+
+"emmet
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
+
+"json
+au! BufRead,BufNewFile *.json set filetype=json
+augroup json_autocmd
+  autocmd!
+  autocmd FileType json set autoindent
+  autocmd FileType json set formatoptions=tcq2l
+  autocmd FileType json set textwidth=78 shiftwidth=2
+  autocmd FileType json set softtabstop=2 tabstop=8
+  autocmd FileType json set expandtab
+  autocmd FileType json set foldmethod=syntax
+augroup END
+
+"javascript
+augroup javascript_folding
+    au!
+    au FileType javascript setlocal foldmethod=syntax
+augroup END
+
+let g:javascript_conceal_function             = "ƒ"
+let g:javascript_conceal_null                 = "ø"
+let g:javascript_conceal_this                 = "@"
+let g:javascript_conceal_return               = "⇚"
+let g:javascript_conceal_undefined            = "¿"
+let g:javascript_conceal_NaN                  = "ℕ"
+let g:javascript_conceal_prototype            = "¶"
+let g:javascript_conceal_static               = "•"
+let g:javascript_conceal_super                = "Ω"
+let g:javascript_conceal_arrow_function       = "⇒"
+let g:javascript_conceal_noarg_arrow_function = "🞅"
+let g:javascript_conceal_underscore_arrow_function = "🞅"
+
+set conceallevel=1
+
+"typescript
+let g:typescript_opfirst='\%([<>=,?^%|*/&]\|\([-:+]\)\1\@!\|!=\|in\%(stanceof\)\=\>\)'
+let g:typescript_compiler_binary = 'tsc'
+let g:typescript_compiler_options = ''
