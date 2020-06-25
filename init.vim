@@ -15,6 +15,8 @@ Plug 'elzr/vim-json'
 Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
+Plug 'preservim/nerdtree'
+Plug 'liuchengxu/vista.vim'
 
 call plug#end()
 
@@ -273,3 +275,36 @@ set conceallevel=1
 let g:typescript_opfirst='\%([<>=,?^%|*/&]\|\([-:+]\)\1\@!\|!=\|in\%(stanceof\)\=\>\)'
 let g:typescript_compiler_binary = 'tsc'
 let g:typescript_compiler_options = ''
+
+"key mapping
+map <C-a> <Home>
+map <C-e> <End>
+
+"nerdtree
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+
+map <C-n> :NERDTreeToggle<CR>
+
+"vista
+function! NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+
+set statusline+=%{NearestMethodOrFunction()}
+
+" By default vista.vim never run if you don't call it explicitly.
+"
+" If you want to show the nearest function in your statusline automatically,
+" you can add the following line to your vimrc 
+autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+
+let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+let g:vista_fzf_preview = ['right:50%']
+let g:vista_executive_for = {
+\ 'cpp': 'coc',
+\ 'go' : 'coc',
+\ 'html': 'coc',
+\ 'javascript': 'coc',
+\ 'dart': 'coc',
+\}
