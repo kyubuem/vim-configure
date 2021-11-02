@@ -17,10 +17,15 @@ Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
 Plug 'preservim/nerdtree'
 Plug 'liuchengxu/vista.vim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
 call plug#end()
 
+
 "Default 
+let mapleader=","
+
 if has("syntax")
 	syntax on
 endif
@@ -247,14 +252,17 @@ augroup json_autocmd
   autocmd FileType json set textwidth=78 shiftwidth=2
   autocmd FileType json set softtabstop=2 tabstop=8
   autocmd FileType json set expandtab
-  autocmd FileType json set foldmethod=syntax
+"  autocmd FileType json set foldmethod=syntax
 augroup END
 
+"html
+autocmd BufRead,BufNewFile *.htm,*.html,*.css,*.js,*.jsx,*.tsx,*.ts setlocal tabstop=2 shiftwidth=2 softtabstop=2
+
 "javascript
-augroup javascript_folding
-    au!
-    au FileType javascript setlocal foldmethod=syntax
-augroup END
+"augroup javascript_folding
+"    au!
+"    au FileType javascript setlocal foldmethod=syntax
+"augroup END
 
 let g:javascript_conceal_function             = "ƒ"
 let g:javascript_conceal_null                 = "ø"
@@ -308,3 +316,11 @@ let g:vista_executive_for = {
 \ 'javascript': 'coc',
 \ 'dart': 'coc',
 \}
+
+"telescope
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+
+nnoremap <Leader>f :lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ winblend = 10 }))<cr>
